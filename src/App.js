@@ -1,31 +1,36 @@
-// import Button from "./Button";
-import styles from "./App.module.css";
 import { useState, useEffect } from "react";
 
+function Hello() {
+  // 함수 만들어서 길게 작성
+  // function byFn() {
+  //   console.log("bye!");
+  // }
+  // function hiFn() {
+  //   console.log("created!");
+  //   return byFn;
+  // }
+  // useEffect(hiFn, []);
+
+  // useEffect 내부에 모두 작성
+  useEffect(()=>{
+    console.log("hi!");
+    return () => console.log("bye!");
+  }, []);
+
+  return (
+    <h1>Hello</h1>
+  );
+}
+
 function App() {
-  const [counter, setValue] = useState(0);
-  const [keyword, setKeyword] = useState("");
+  const [showing, setShowing] = useState(false);
   const onClick = () => {
-    setValue((prev) => prev + 1);
-  };
-  const onChange = (event) => {
-    setKeyword(event.target.value);
+    setShowing((prev) => !prev);
   }
-  console.log("i run all time");
-  const iRunOnlyOne = () => {
-    console.log("i run one time");
-  };
-  useEffect(iRunOnlyOne, []);
-  useEffect(() => {
-    console.log("search....");
-  }, [keyword])
   return (
     <div>
-      <input value={keyword} onChange={onChange} type="text" placeholder="Search here..."></input>
-      <h1 className={styles.title}>
-        {counter}
-      </h1>
-      <button onClick={onClick}>click me</button>
+      {showing ? <Hello></Hello> : null}
+      <button onClick={onClick}>{showing ? "Hide" : "Show"}</button>
     </div>
   );
 }
