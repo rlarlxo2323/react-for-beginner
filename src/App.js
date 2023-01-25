@@ -1,36 +1,32 @@
-import { useState, useEffect } from "react";
-
-function Hello() {
-  // 함수 만들어서 길게 작성
-  // function byFn() {
-  //   console.log("bye!");
-  // }
-  // function hiFn() {
-  //   console.log("created!");
-  //   return byFn;
-  // }
-  // useEffect(hiFn, []);
-
-  // useEffect 내부에 모두 작성
-  useEffect(()=>{
-    console.log("hi!");
-    return () => console.log("bye!");
-  }, []);
-
-  return (
-    <h1>Hello</h1>
-  );
-}
+import { useEffect, useState } from "react";
 
 function App() {
-  const [showing, setShowing] = useState(false);
-  const onClick = () => {
-    setShowing((prev) => !prev);
+  const [todo, setTodo] = useState("");
+  const [todos, setTodos] = useState([]);
+  const onChange = (event)=>{
+    setTodo(event.target.value);
   }
+  const onSubmit = (event) => {
+    event.preventDefault();
+    if(todo === ""){
+      return;
+    }
+    setTodo("");
+    setTodos(currentArray => [todo, ...currentArray])
+  }
+  useEffect(() => {
+    console.log(todos);
+  }, [todos])
+  
   return (
     <div>
-      {showing ? <Hello></Hello> : null}
-      <button onClick={onClick}>{showing ? "Hide" : "Show"}</button>
+      <h1>My To Dos ({todos.length})</h1>
+      <form onSubmit={onSubmit}>
+        <input onChange={onChange} value={todo} type="text" placeholder="Write your to do..."></input>
+        <button>Add To Do</button>
+      </form>
+      <hr />
+      {todos.map((item, index) => <li key={index}>{item}</li>)}
     </div>
   );
 }
